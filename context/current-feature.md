@@ -2,9 +2,22 @@
 
 ## Status
 
+In progress — Dashboard UI Phase 3
+
 ## Goals
 
+Build out the main content area of the dashboard using mock data:
+
+- 4 stats cards (total items, collections, favorite items, favorite collections)
+- Pinned Items section
+- Recent Collections section
+- 10 Recent Items section
+
 ## Notes
+
+- Use `src/lib/mock-data.js` directly (no database yet)
+- Reference `context/screenshots/dashboard-ui-main.png` for layout
+- Stats cards are not in the screenshot — add them at the top
 
 ## History
 
