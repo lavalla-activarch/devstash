@@ -12,20 +12,20 @@ import {
 
 const TYPE_CONFIG: Record<string, { Icon: React.ElementType; color: string }> =
   {
-    type_snippet: { Icon: Code2, color: "bg-blue-500" },
-    type_prompt: { Icon: Sparkles, color: "bg-purple-500" },
-    type_command: { Icon: Terminal, color: "bg-green-500" },
-    type_note: { Icon: FileText, color: "bg-yellow-500" },
-    type_file: { Icon: File, color: "bg-slate-500" },
-    type_image: { Icon: Image, color: "bg-pink-500" },
-    type_url: { Icon: Link2, color: "bg-orange-500" },
+    snippet: { Icon: Code2, color: "bg-blue-500" },
+    prompt: { Icon: Sparkles, color: "bg-purple-500" },
+    command: { Icon: Terminal, color: "bg-green-500" },
+    note: { Icon: FileText, color: "bg-yellow-500" },
+    file: { Icon: File, color: "bg-slate-500" },
+    image: { Icon: Image, color: "bg-pink-500" },
+    link: { Icon: Link2, color: "bg-orange-500" },
   };
 
 interface Item {
   id: string;
   title: string;
   description?: string | null;
-  typeId: string;
+  typeName: string;
   isFavorite: boolean;
   isPinned: boolean;
   tags: string[];
@@ -33,7 +33,7 @@ interface Item {
 }
 
 export function ItemCard({ item }: { item: Item }) {
-  const { Icon, color } = TYPE_CONFIG[item.typeId] ?? TYPE_CONFIG.type_file;
+  const { Icon, color } = TYPE_CONFIG[item.typeName] ?? TYPE_CONFIG.file;
 
   const date = new Date(item.createdAt).toLocaleDateString("en-US", {
     month: "short",
