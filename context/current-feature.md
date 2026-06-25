@@ -2,25 +2,23 @@
 
 ## Status
 
-Completed — Dashboard Items
+Completed — Stats & Sidebar
 
 ## Goals
 
-Replace dummy item data in the dashboard main area (pinned and recent items) with real data from the Neon database via Prisma:
+Show real database data in the stats cards and sidebar:
 
-- Create `src/lib/db/items.ts` with data fetching functions
-- Fetch items directly in server component (no client-side fetching)
-- Item card icon/border derived from the item type
-- Display item type tags and anything else currently shown
-- If there are no pinned items, nothing should display there
-- Update collection stats display
+- Display stats (total items, collections, item types, tags) from the database, keeping the current design/layout
+- Display system item types in the sidebar with their icons, linking to `/items/[typename]`
+- Add "View all collections" link under the collections list that goes to `/collections`
+- Keep star icons for favorite collections; for recents, show a colored circle based on the most-used item type in that collection
+- Add any needed database functions to `src/lib/db/items.ts`
 
 ## Notes
 
-- Reference spec: `context/features/dashboard-items-spec.md`
-- Reference screenshot: `context/screenshots/dashboard-ui-main.png`
-- Replace mock data from `src/lib/mock-data.ts` in the pinned and recent items sections only
-- Keep existing layout and card design intact
+- Reference spec: `context/features/stats-sidebar-spec.md`
+- Reference: `src/lib/db/collections.ts` for db function patterns
+- `src/lib/db/items.ts` already exists — add new functions as needed
 
 ## History
 
@@ -34,3 +32,4 @@ Replace dummy item data in the dashboard main area (pinned and recent items) wit
 - **2026-06-24** — Completed Seed Data: demo user (bcryptjs), 7 system item types, 5 collections with 18 items (snippets, prompts, commands, links), 35 tags applied to Neon dev branch
 - **2026-06-24** — Completed Dashboard Collections: replaced mock collection data with real Neon DB data via Prisma, added colored left border (dominant type), type icon row per card, updated collection stats
 - **2026-06-24** — Completed Dashboard Items: created `src/lib/db/items.ts` (getItemStats, getPinnedItems, getRecentItems), replaced mock item data with real Neon DB data, updated ItemCard to use typeName, pinned section hidden when empty
+- **2026-06-24** — Completed Stats & Sidebar: added `getItemTypesWithCounts` to `items.ts`, added `dominantTypeName` to `CollectionWithMeta`, fetched sidebar data server-side in `dashboard/layout.tsx`, sidebar now shows real item types with counts, favorite collections with star icons, recent collections with colored circles by dominant type, and "View all collections" link

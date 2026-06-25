@@ -13,8 +13,16 @@ import {
   PanelLeft,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import type { ItemTypeWithCount } from "@/lib/db/items";
+import type { CollectionWithMeta } from "@/lib/db/collections";
 
-export function DashboardLayout({ children }: { children: React.ReactNode }) {
+interface DashboardLayoutProps {
+  children: React.ReactNode;
+  itemTypes: ItemTypeWithCount[];
+  collections: CollectionWithMeta[];
+}
+
+export function DashboardLayout({ children, itemTypes, collections }: DashboardLayoutProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -27,14 +35,14 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           collapsed ? "w-14" : "w-60"
         )}
       >
-        <SidebarContent collapsed={collapsed} />
+        <SidebarContent collapsed={collapsed} itemTypes={itemTypes} collections={collections} />
       </aside>
 
       {/* Mobile sidebar (Sheet) */}
       <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
         <SheetContent side="left" className="p-0 w-60 border-r border-border">
           <SheetTitle className="sr-only">Navigation</SheetTitle>
-          <SidebarContent collapsed={false} />
+          <SidebarContent collapsed={false} itemTypes={itemTypes} collections={collections} />
         </SheetContent>
       </Sheet>
 

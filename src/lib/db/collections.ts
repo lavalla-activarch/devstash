@@ -18,6 +18,7 @@ export type CollectionWithMeta = {
   itemCount: number
   borderColor: string
   typeNames: string[]
+  dominantTypeName: string
 }
 
 export async function getRecentCollections(userEmail: string): Promise<CollectionWithMeta[]> {
@@ -55,6 +56,7 @@ export async function getRecentCollections(userEmail: string): Promise<Collectio
       itemCount: col.items.length,
       borderColor: TYPE_BORDER_COLORS[dominantType] ?? "border-l-zinc-600",
       typeNames: Object.keys(typeCounts),
+      dominantTypeName: dominantType,
     }
   })
 }

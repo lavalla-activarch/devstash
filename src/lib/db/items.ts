@@ -1,5 +1,30 @@
 import prisma from "@/lib/prisma"
 
+export type ItemTypeWithCount = {
+  id: string
+  name: string
+  icon: string | null
+  count: number
+}
+
+export async function getItemTypesWithCounts(userEmail: string): Promise<ItemTypeWithCount[]> {
+  const types = await prisma.itemType.findMany({
+    where: { isSystem: true },
+    include: {
+      items: {
+        where: { user: { email: userEmail } },
+        select: { id: true },
+      },
+    },
+  })
+  return types.map((t) => ({
+    id: t.id,
+    name: t.name,
+    icon: t.icon,
+    count: t.items.length,
+  }))
+}
+
 export type ItemWithMeta = {
   id: string
   title: string
