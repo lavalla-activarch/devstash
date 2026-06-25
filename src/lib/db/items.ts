@@ -1,3 +1,4 @@
+import { cache } from "react"
 import prisma from "@/lib/prisma"
 
 export type ItemTypeWithCount = {
@@ -7,7 +8,7 @@ export type ItemTypeWithCount = {
   count: number
 }
 
-export async function getItemTypesWithCounts(userEmail: string): Promise<ItemTypeWithCount[]> {
+export const getItemTypesWithCounts = cache(async function (userEmail: string): Promise<ItemTypeWithCount[]> {
   const types = await prisma.itemType.findMany({
     where: { isSystem: true },
     include: {
@@ -23,7 +24,7 @@ export async function getItemTypesWithCounts(userEmail: string): Promise<ItemTyp
     icon: t.icon,
     count: t.items.length,
   }))
-}
+})
 
 export type ItemWithMeta = {
   id: string
@@ -41,15 +42,15 @@ export type ItemStats = {
   favoriteItems: number
 }
 
-export async function getItemStats(userEmail: string): Promise<ItemStats> {
+export const getItemStats = cache(async function (userEmail: string): Promise<ItemStats> {
   const [totalItems, favoriteItems] = await Promise.all([
     prisma.item.count({ where: { user: { email: userEmail } } }),
     prisma.item.count({ where: { user: { email: userEmail }, isFavorite: true } }),
   ])
   return { totalItems, favoriteItems }
-}
+})
 
-export async function getPinnedItems(userEmail: string): Promise<ItemWithMeta[]> {
+export const getPinnedItems = cache(async function (userEmail: string): Promise<ItemWithMeta[]> {
   const items = await prisma.item.findMany({
     where: { user: { email: userEmail }, isPinned: true },
     include: {
@@ -59,9 +60,9 @@ export async function getPinnedItems(userEmail: string): Promise<ItemWithMeta[]>
     orderBy: { updatedAt: "desc" },
   })
   return items.map(toItemWithMeta)
-}
+})
 
-export async function getRecentItems(userEmail: string): Promise<ItemWithMeta[]> {
+export const getRecentItems = cache(async function (userEmail: string): Promise<ItemWithMeta[]> {
   const items = await prisma.item.findMany({
     where: { user: { email: userEmail } },
     include: {
@@ -72,7 +73,7 @@ export async function getRecentItems(userEmail: string): Promise<ItemWithMeta[]>
     take: 10,
   })
   return items.map(toItemWithMeta)
-}
+})
 
 function toItemWithMeta(item: {
   id: string

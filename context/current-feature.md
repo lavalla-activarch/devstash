@@ -2,15 +2,24 @@
 
 ## Status
 
-<!-- Not Started | In Progress | Completed -->
+Completed
 
 ## Goals
 
-<!-- What success looks like -->
+Fix quick-win issues surfaced by the code audit:
+
+1. Add `DATABASE_URL` runtime guard in `src/lib/prisma.ts` (fail fast with a clear error instead of a confusing Prisma crash)
+2. Wrap shared DB functions with React `cache()` to deduplicate identical queries in the same request — `getRecentCollections` fires twice per dashboard load
+3. Add `select` to the `items` include in `getRecentCollections` so only `type.name` is fetched instead of full item rows (including large `content TEXT`)
+4. Fix sidebar icon lookup mismatch — seed stores PascalCase icon names (`"Code"`, `"StickyNote"`) but `TYPE_ICONS` map in `sidebar.tsx` keys on lowercase kebab-case (`"code"`, `"file-text"`); every type falls back to the generic File icon
+5. Remove `cursor-pointer` from `ItemCard` since there is no click handler yet
 
 ## Notes
 
-<!-- Additional context, constraints, or details from spec -->
+- These are all isolated, low-risk changes — no new features, no schema changes, no auth required
+- Do NOT rotate DB credentials as part of this feature (that is a manual Neon dashboard task for the user)
+- Do NOT add `loading.tsx` or Suspense yet — that is a separate, larger task
+- Do NOT centralize `TYPE_ICONS` maps yet — that is a refactor, not a quick win
 
 ## History
 

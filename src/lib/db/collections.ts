@@ -1,3 +1,4 @@
+import { cache } from "react"
 import prisma from "@/lib/prisma"
 
 const TYPE_BORDER_COLORS: Record<string, string> = {
@@ -21,12 +22,12 @@ export type CollectionWithMeta = {
   dominantTypeName: string
 }
 
-export async function getRecentCollections(userEmail: string): Promise<CollectionWithMeta[]> {
+export const getRecentCollections = cache(async function (userEmail: string): Promise<CollectionWithMeta[]> {
   const collections = await prisma.collection.findMany({
     where: { user: { email: userEmail } },
     include: {
       items: {
-        include: { type: { select: { name: true } } },
+        select: { type: { select: { name: true } } },
       },
     },
     orderBy: { updatedAt: "desc" },
@@ -59,4 +60,4 @@ export async function getRecentCollections(userEmail: string): Promise<Collectio
       dominantTypeName: dominantType,
     }
   })
-}
+})
