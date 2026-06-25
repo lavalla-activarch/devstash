@@ -29,13 +29,23 @@ import type { ItemTypeWithCount } from "@/lib/db/items";
 import type { CollectionWithMeta } from "@/lib/db/collections";
 
 const TYPE_ICONS: Record<string, React.ElementType> = {
-  code: Code2,
-  sparkles: Sparkles,
-  terminal: Terminal,
-  "file-text": FileText,
+  snippet: Code2,
+  prompt: Sparkles,
+  command: Terminal,
+  note: FileText,
   file: File,
   image: Image,
   link: Link2,
+};
+
+const TYPE_ICON_COLORS: Record<string, string> = {
+  snippet: "text-blue-500",
+  prompt: "text-purple-500",
+  command: "text-green-500",
+  note: "text-yellow-500",
+  file: "text-slate-500",
+  image: "text-pink-500",
+  link: "text-orange-500",
 };
 
 const TYPE_CIRCLE_COLORS: Record<string, string> = {
@@ -45,7 +55,7 @@ const TYPE_CIRCLE_COLORS: Record<string, string> = {
   note: "bg-yellow-500",
   file: "bg-slate-500",
   image: "bg-pink-500",
-  url: "bg-orange-500",
+  link: "bg-orange-500",
 };
 
 interface SidebarContentProps {
@@ -95,8 +105,10 @@ export function SidebarContent({ collapsed, itemTypes, collections }: SidebarCon
           )}
           <nav className="space-y-0.5">
             {itemTypes.map((type) => {
-              const Icon = TYPE_ICONS[type.icon ?? ""] ?? File;
-              const href = `/items/${type.name.toLowerCase()}s`;
+              const key = type.name.toLowerCase();
+              const Icon = TYPE_ICONS[key] ?? File;
+              const iconColor = TYPE_ICON_COLORS[key] ?? "text-muted-foreground";
+              const href = `/items/${key}s`;
 
               return collapsed ? (
                 <Tooltip key={type.id}>
@@ -104,7 +116,7 @@ export function SidebarContent({ collapsed, itemTypes, collections }: SidebarCon
                     render={<Link href={href} />}
                     className="w-full flex items-center justify-center rounded-md p-2 text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
                   >
-                    <Icon className="h-4 w-4 text-muted-foreground" />
+                    <Icon className={cn("h-4 w-4", iconColor)} />
                   </TooltipTrigger>
                   <TooltipContent side="right">
                     {type.name} ({type.count})
@@ -116,9 +128,9 @@ export function SidebarContent({ collapsed, itemTypes, collections }: SidebarCon
                   href={href}
                   className="flex items-center gap-2.5 rounded-md px-2 py-1.5 text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors group"
                 >
-                  <Icon className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-sidebar-accent-foreground" />
+                  <Icon className={cn("h-4 w-4 shrink-0", iconColor)} />
                   <span className="flex-1">{type.name}</span>
-                  {(type.name === "File" || type.name === "Image") && (
+                  {(key === "file" || key === "image") && (
                     <Badge variant="outline" className="h-4 px-1 text-[10px] font-semibold text-muted-foreground border-muted-foreground/30">
                       PRO
                     </Badge>

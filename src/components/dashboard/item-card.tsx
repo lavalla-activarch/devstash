@@ -41,7 +41,7 @@ export function ItemCard({ item }: { item: Item }) {
   });
 
   return (
-    <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-4 hover:bg-accent/30 transition-colors cursor-pointer">
+    <div className="flex items-start gap-3 rounded-lg border border-border bg-card p-4 hover:bg-accent/30 transition-colors">
       <div className={`${color} rounded-md p-2 shrink-0 mt-0.5`}>
         <Icon className="h-4 w-4 text-white" />
       </div>
