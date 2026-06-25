@@ -11,6 +11,14 @@ Read the following to get the full context of the project:
 - @context/ai-interaction.md
 - @context/current-feature.md
 
+## Neon MCP
+
+- **Project**: Devstash (`twilight-unit-69188610`)
+- **Default branch**: development (`br-tiny-haze-ahnqzzzc`)
+- ALWAYS use the development branch for all Neon MCP operations
+- NEVER query or modify the production branch (`br-super-grass-ah5315v6`) unless the user explicitly says "production"
+- When running SQL, always pass both `projectId` and `branchId` explicitly
+
 ## Commands
 
 ```bash

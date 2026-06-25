@@ -46,3 +46,9 @@ src/generated/
 
 # claude memory
 .claude/agent-memory/
+
+# mcp config (contains secrets)
+.mcp.json
+
+# playwright mcp (browser session artifacts)
+.playwright-mcp/
