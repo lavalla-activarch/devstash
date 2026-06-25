@@ -22,6 +22,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import type { ItemTypeWithCount } from "@/lib/db/items";
@@ -117,6 +118,11 @@ export function SidebarContent({ collapsed, itemTypes, collections }: SidebarCon
                 >
                   <Icon className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-sidebar-accent-foreground" />
                   <span className="flex-1">{type.name}</span>
+                  {(type.name === "File" || type.name === "Image") && (
+                    <Badge variant="outline" className="h-4 px-1 text-[10px] font-semibold text-muted-foreground border-muted-foreground/30">
+                      PRO
+                    </Badge>
+                  )}
                   <span className="text-xs text-muted-foreground">{type.count}</span>
                 </Link>
               );
